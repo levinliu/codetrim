@@ -8,7 +8,7 @@ CodeTrim to filter specific lang and trim code
 import os
 
 from group_renamer import regroup
-from comment import is_comment
+from comment import filter_codes
 from file_scanner import scan_dir
 
 
@@ -20,14 +20,8 @@ def load(path):
 
 
 def filter_code(path):
-    codelines = []
     lines = load(path)
-    for l in lines:
-        if l.strip() == "":
-            continue
-        if not is_comment(l):
-            codelines.append(l)
-    return codelines 
+    return filter_codes(lines)
 
 
 def resolve_file(dest, project_dir, f):
@@ -38,11 +32,11 @@ def resolve_file(dest, project_dir, f):
         return dest + "/" + relative_path
  
    
-def refine_project(project_dir, dest, from_group, to_group, code = 'scala'):
+def refine_project(project_dir, dest, from_group, to_group, types = ['.py']):
     if not os.path.exists(dest):
         print("create dir ", dest)
         os.makedirs(dest)
-    files = scan_dir(project_dir, '.'+code)
+    files = scan_dir(project_dir, types)
     for f in files:
         lines = filter_code(f)
         new_file = resolve_file(dest, project_dir, f)
@@ -51,8 +45,8 @@ def refine_project(project_dir, dest, from_group, to_group, code = 'scala'):
             os.makedirs(new_parent_dir)
         with open(new_file,'w+') as fwrite:
             fwrite.writelines(lines) 
-            print("generate file " , new_file)
-            regroup(new_file, from_group, to_group)
+        print("generate file " + new_file)
+        regroup(new_file, from_group, to_group)
     print("finish refinement")
 
 
@@ -69,6 +63,12 @@ if __name__ == "__main__":
     #filter_project(proj_dir, dest, 'scala')
     fg = 'org.wumiguo.ser'
     tg = 'org.bd720.ercore'
-    refine_project(proj_dir, dest, fg, tg, 'scala')
+    types = ['.scala', '.java' ]
+    refine_project(proj_dir, dest, fg, tg, types)
+    proj2 = "/Users/mac/Development/learn/er-job"
+    dest2 = "/tmp/cleancode-erjob"
+    fg2 = 'org.wumiguo.erjob'
+    tg2 = 'org.bd720.erjob'
+    refine_project(proj2, dest2, fg2, tg2, types)
  
 

@@ -6,8 +6,8 @@ import os
 
 
 def regroup(path, from_group, to_group):
-    package_rename(path, from_group, to_group)
-    folder_rename(path, from_group, to_group)
+    new_path = folder_rename(path, from_group, to_group)
+    package_rename(new_path, from_group, to_group)
 
 
 def regroup_path(path, from_group, to_group):
@@ -25,25 +25,32 @@ def folder_rename(path, from_group, to_group):
         os.makedirs(new_path_parent)
     os.rename(path, new_path)
     print("rename from " + path + " to " + new_path)
+    return new_path
 
 
 def package_rename(path, from_group, to_group):
     new_lines = []
+    found_match = False
     with open(path,'r') as f:
         lines = f.readlines()
         for l in lines:
             if from_group in l:
+                found_match = True
                 l = l.replace(from_group, to_group)
             new_lines.append(l)
-    with open(path,'w+') as f:
-        f.writelines(new_lines)
-    print("finish regroup ", path)
+    if found_match:
+        with open(path,'w+') as f:
+            f.writelines(new_lines)
+    print("finish package rename on " + path + ' match ' + str(found_match))
+    if len(new_lines) > 0:
+        print(" first "  + new_lines[0])
 
 
 if __name__ == '__main__':
-    p = '/tmp/cleancode/src/main/scala/org/wumiguo/ser/flow/SchemaBasedSimJoinECFlowSample.scala'
+    p = '/tmp/cleancode/src/main/scala/org/bd720/ercore/CallERFlowLauncher.scala'
+    p = '/tmp/cleancode/src/main/scala/org/bd720/ercore/model/IdDuplicates.scala'
     g1 = 'org.wumiguo.ser'
-    g2 = 'org.bd720.sercore'
+    g2 = 'org.bd720.ercore'
     regroup(p,g1,g2)
   
 

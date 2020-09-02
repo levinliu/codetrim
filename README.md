@@ -17,3 +17,5 @@ source .venv/bin/activate
 python setup.py install
 
 ## Run test
+
+python tests/comment_test.py
