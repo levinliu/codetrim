@@ -67,25 +67,17 @@ def handle_resources(project_dir, dest):
 
 
 if __name__ == "__main__":
-    path = '/Users/mac/Development/learn/er-spark/src/main/scala/org/wumiguo/ser/methods/util/Converters.scala'
-    lines = load(path)
-    #print("lines " , lines)
-    codelines = filter_code(path)
-    for l in codelines:
-        print("c:", l )
     proj_dir = '/Users/mac/Development/learn/er-spark'
     dest = '/tmp/cleancode'
-    print("resolve file: ", resolve_file(dest, proj_dir, path))
-    #filter_project(proj_dir, dest, 'scala')
-    fg = 'org.wumiguo.ser'
-    tg = 'org.bd720.ercore'
+    fg1 = 'org.wumiguo.ser'
+    tg1 = 'org.bd720.ercore'
     types = ['.scala', '.java' ]
-    refine_project(proj_dir, dest, fg, tg, types)
+    refine_project(proj_dir, dest, fg1, tg1, types)
     proj2 = "/Users/mac/Development/learn/er-job"
     dest2 = "/tmp/cleancode-erjob"
     fg2 = 'org.wumiguo.erjob'
     tg2 = 'org.bd720.erjob'
     refine_project(proj2, dest2, fg2, tg2, types)
-    regroup_after_refine(proj2, 'org.wumiguo.ser', 'org.bd720.ercore', types)
+    regroup_after_refine(proj2, fg1, tg1, types)
  
 
