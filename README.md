@@ -6,6 +6,7 @@ Trim Code
 
 pip3 install virtualenv
 
+### please change to regarding python v3 path
 virtualenv -p /usr/local/bin/python3 .venv
 
 ## Dev

@@ -2,7 +2,7 @@ from setuptools import setup
 
 
 PACKAGE_NAME = "codetrim"
-VERSION = "1.0" 
+VERSION = "1.1" 
 AUTHOR = "levinliu"
 
 REQUIRES = []
