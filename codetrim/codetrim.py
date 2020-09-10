@@ -6,22 +6,26 @@ CodeTrim to filter specific lang and trim code
 """
 
 import os
-
+import traceback
 from group_renamer import regroup, package_rename
 from comment import filter_codes
 from file_scanner import scan_dir
 from copy_static import copy_res
 
 def load(path):
-    with open(path, "r") as afile:
-        lines = afile.readlines()
+    with open(path, "rb") as f:
+        lines = [x.decode('utf8') for x in f.readlines()]
         return lines
     return None 
 
 
 def filter_code(path):
     lines = load(path)
-    return filter_codes(lines)
+    try:
+        return filter_codes(lines)
+    except Exception as e:
+        traceback.print_exc(e)
+        raise ValueError("Error on filter " + path, e)
 
 
 def resolve_file(dest, project_dir, f):

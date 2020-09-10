@@ -61,6 +61,10 @@ def extract_before_line_comment(line):
     return line[0:index]
 
 
+def encstrip(c):
+    return str(c).strip()
+
+
 def is_comment(content):
   sc = str(content)
   sc = sc.strip()
@@ -70,7 +74,8 @@ def is_comment(content):
 
 
 def comment_line(content):
-    sc = str(content).strip()
+    #sc = str(content).strip()
+    sc = encstrip(content) 
     if sc.startswith("//"):
         return True
     elif sc.startswith("/*") and sc.endswith("*/"):
@@ -79,28 +84,28 @@ def comment_line(content):
 
 
 def comment_start(content):
-    sc = str(content).strip()
+    sc = encstrip(content)
     if sc.startswith("/*"):
         return True
     return False
 
 
 def comment_endwith_start(content):
-    sc = str(content).strip()
+    sc = encstrip(content)
     if "/*" in sc and not sc.startswith("/*"):
         return True
     return False
 
 
 def has_line_comment(content):
-    sc = str(content).strip()
+    sc = str(encstrip(content))
     if "//" in sc and not sc.startswith("//"):
         return True
     return False
 
 
 def comment_startwith_end(content):
-    sc = str(content).strip()
+    sc = encstrip(content)
     if "*/" in sc and not sc.endswith("*/"):
         return True
     return False
@@ -115,14 +120,15 @@ def extract_after_comment_end(line):
 
 
 def comment_end(content):
-    sc = str(content).strip()
+    sc = encstrip(content)
+    print("sc=",sc)
     if sc.endswith("*/"):
         return True
     return False
 
 
 def has_inner_comment(content):
-    sc = str(content)
+    sc = encstrip(content)
     if not sc.startswith("/*") and "/*" in sc and "*/" in sc and not sc.endswith("*/"):
         return True
     return False 
